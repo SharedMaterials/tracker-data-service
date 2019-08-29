@@ -14,4 +14,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("select p from Project p where p.activeInd = 1 and p.groupId = :groupId")
     List<Project> findActiveProjectsByGroupId(@Param("groupId") Long groupId);
 
+    @Query("select p from Project p where p.activeInd = 1 and p.projectId = :projectId")
+    Project getActiveById(@Param("projectId") Long projectId);
+
 }

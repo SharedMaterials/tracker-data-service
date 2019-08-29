@@ -77,6 +77,22 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Project addToGroup(Long projectId, Long groupId) {
+
+        Project project = getById(projectId);
+        project.setGroupId(groupId);
+        return projectRepository.save(project);
+    }
+
+    @Override
+    public Project removeFromGroup(Long projectId) {
+
+        Project project = getById(projectId);
+        project.setGroupId(0L);
+        return projectRepository.save(project);
+    }
+
+    @Override
     public List<Project> getByGroupId(Long groupId) {
 
         List<Project> projectList = projectRepository.findActiveProjectsByGroupId(groupId);

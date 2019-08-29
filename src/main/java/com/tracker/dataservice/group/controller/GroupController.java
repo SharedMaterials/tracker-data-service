@@ -5,6 +5,8 @@ import com.tracker.dataservice.employee.service.EmployeeService;
 import com.tracker.dataservice.group.Group;
 import com.tracker.dataservice.group.model.GroupRequest;
 import com.tracker.dataservice.group.service.GroupService;
+import com.tracker.dataservice.project.Project;
+import com.tracker.dataservice.project.service.ProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +21,13 @@ public class GroupController {
 
     private final GroupService groupService;
     private final EmployeeService employeeService;
+    private final ProjectService projectService;
 
-    public GroupController(GroupService groupService, EmployeeService employeeService) {
+    public GroupController(GroupService groupService, EmployeeService employeeService, ProjectService projectService) {
         this.groupService = groupService;
         this.employeeService = employeeService;
+        this.projectService = projectService;
     }
-
 
     @GetMapping("/groups")
     public ResponseEntity<List<Group>> getAll() {
@@ -79,5 +82,19 @@ public class GroupController {
 
         Employee employee = employeeService.removeFromGroup(employeeId);
         return ResponseEntity.accepted().body(employee);
+    }
+
+    @PutMapping("/group/{groupId}/project/{projectId}")
+    public ResponseEntity assignProjectToGroup(@PathVariable Long groupId, @PathVariable Long projectId) {
+
+        Project project = projectService.addToGroup(projectId, groupId);
+        return ResponseEntity.accepted().body(project);
+    }
+
+    @PutMapping("/group/project/{projectId}")
+    public ResponseEntity removeGroupFromProject(@PathVariable Long projectId) {
+
+        Project project = projectService.removeFromGroup(projectId);
+        return ResponseEntity.accepted().body(project);
     }
 }

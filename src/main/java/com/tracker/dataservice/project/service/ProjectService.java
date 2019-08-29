@@ -18,4 +18,8 @@ public interface ProjectService {
     List<Project> getByGroupId(Long groupId);
 
     void deleteById(Long projectId);
+
+    Project addToGroup(Long projectId, Long groupId);
+
+    Project removeFromGroup(Long projectId);
 }

@@ -4,6 +4,8 @@ import com.tracker.dataservice.employee.Employee;
 import com.tracker.dataservice.employee.repository.EmployeeRepository;
 import com.tracker.dataservice.group.Group;
 import com.tracker.dataservice.group.repository.GroupRepository;
+import com.tracker.dataservice.project.Project;
+import com.tracker.dataservice.project.repository.ProjectRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +25,12 @@ class DBConfig implements CommandLineRunner {
 
     private final GroupRepository groupRepository;
     private final EmployeeRepository employeeRepository;
+    private final ProjectRepository projectRepository;
 
-    public DBConfig(GroupRepository groupRepository, EmployeeRepository employeeRepository) {
+    public DBConfig(GroupRepository groupRepository, EmployeeRepository employeeRepository, ProjectRepository projectRepository) {
         this.groupRepository = groupRepository;
         this.employeeRepository = employeeRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Override
@@ -62,5 +66,19 @@ class DBConfig implements CommandLineRunner {
                 .build();
         employee = employeeRepository.save(employee);
         System.out.println(employeeRepository.getActiveById(employee.getEmployeeId()));
+
+        Project project = Project.builder()
+                .title("Outreach")
+                .description(
+                    "The purpose of this project is to improve public awareness through community" +
+                    " outreach and charity sponsorship"
+                ).budget(3000L)
+                .groupId(1L)
+                .activeInd(1L)
+                .build();
+        project = projectRepository.save(project);
+        System.out.println(projectRepository.getActiveById(project.getProjectId()));
+
+
     }
 }
